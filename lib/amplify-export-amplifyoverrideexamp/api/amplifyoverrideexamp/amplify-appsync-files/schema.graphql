@@ -1,0 +1,185 @@
+
+type Transcription {
+  id: ID!
+  name: String!
+  category: String!
+  price: Float!
+  length: String!
+  user: String!
+  status: String
+  source_location: String!
+  speakers: Int!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelTranscriptionConnection {
+  items: [Transcription]!
+  nextToken: String
+}
+
+input ModelTranscriptionFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  category: ModelStringInput
+  price: ModelFloatInput
+  length: ModelStringInput
+  user: ModelStringInput
+  status: ModelStringInput
+  source_location: ModelStringInput
+  speakers: ModelIntInput
+  and: [ModelTranscriptionFilterInput]
+  or: [ModelTranscriptionFilterInput]
+  not: ModelTranscriptionFilterInput
+}
+
+type Query {
+  getTranscription(id: ID!): Transcription
+  listTranscriptions(filter: ModelTranscriptionFilterInput, limit: Int, nextToken: String): ModelTranscriptionConnection
+}
+
+input ModelTranscriptionConditionInput {
+  name: ModelStringInput
+  category: ModelStringInput
+  price: ModelFloatInput
+  length: ModelStringInput
+  user: ModelStringInput
+  status: ModelStringInput
+  source_location: ModelStringInput
+  speakers: ModelIntInput
+  and: [ModelTranscriptionConditionInput]
+  or: [ModelTranscriptionConditionInput]
+  not: ModelTranscriptionConditionInput
+}
+
+input CreateTranscriptionInput {
+  id: ID
+  name: String!
+  category: String!
+  price: Float!
+  length: String!
+  user: String!
+  status: String
+  source_location: String!
+  speakers: Int!
+}
+
+input UpdateTranscriptionInput {
+  id: ID!
+  name: String
+  category: String
+  price: Float
+  length: String
+  user: String
+  status: String
+  source_location: String
+  speakers: Int
+}
+
+input DeleteTranscriptionInput {
+  id: ID!
+}
+
+type Mutation {
+  createTranscription(input: CreateTranscriptionInput!, condition: ModelTranscriptionConditionInput): Transcription
+  updateTranscription(input: UpdateTranscriptionInput!, condition: ModelTranscriptionConditionInput): Transcription
+  deleteTranscription(input: DeleteTranscriptionInput!, condition: ModelTranscriptionConditionInput): Transcription
+}
+
+type Subscription {
+  onCreateTranscription: Transcription @aws_subscribe(mutations: ["createTranscription"])
+  onUpdateTranscription: Transcription @aws_subscribe(mutations: ["updateTranscription"])
+  onDeleteTranscription: Transcription @aws_subscribe(mutations: ["deleteTranscription"])
+}
+
